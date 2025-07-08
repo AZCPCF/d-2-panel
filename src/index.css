@@ -1,0 +1,110 @@
+@import "tailwindcss";
+@font-face {
+  font-family: kalameh;
+  font-size: 128px;
+  src: url("./assets/fonts/kalameh.ttf");
+}
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+html {
+  scroll-behavior: smooth;
+}
+* {
+  direction: rtl !important;
+  font-family: kalameh !important;
+  box-sizing: border-box;
+}
+::selection {
+  background-color: var(--color-primary-main);
+  color: black;
+}
+html[data-theme="dark"] {
+  --color-background: var(--color-slate-700);
+  --color-foreground: var(--foreground, #f1f1f1);
+  /* 🌌 Sky (Primary) */
+  --color-primary-50: var(--color-sky-50);
+  --color-primary-100: var(--color-sky-100);
+  --color-primary-200: var(--color-sky-200);
+  --color-primary-300: var(--color-sky-300);
+  --color-primary-400: var(--color-sky-400);
+  --color-primary-500: var(--color-sky-500);
+  --color-primary-600: var(--color-sky-600);
+  --color-primary-700: var(--color-sky-700);
+  --color-primary-800: var(--color-sky-800);
+  --color-primary-900: var(--color-sky-900);
+  --color-primary-main: var(--color-primary-500);
+}
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary-50: oklch(97.001% 0.04168 92.208);
+  --color-primary-100: oklch(94.996% 0.07026 92.402);
+  --color-primary-200: oklch(93.082% 0.09722 92.393);
+  --color-primary-300: oklch(91.211% 0.12544 92.716);
+  --color-primary-400: oklch(89.203% 0.15355 92.583);
+  --color-primary-500: oklch(87.218% 0.17688 92.432);
+  --color-primary-600: oklch(74.01% 0.15145 92.842);
+  --color-primary-700: oklch(56.188% 0.11492 92.299);
+  --color-primary-800: oklch(37.513% 0.07668 91.482);
+  --color-primary-900: oklch(20.853% 0.04264 91.867);
+  --color-primary-main: oklch(87.22% 0.177 92.46);
+  --color-secondary-50: var(--color-blue-50);
+  --color-secondary-100: var(--color-blue-100);
+  --color-secondary-200: var(--color-blue-200);
+  --color-secondary-300: var(--color-blue-300);
+  --color-secondary-400: var(--color-blue-400);
+  --color-secondary-500: var(--color-blue-500);
+  --color-secondary-600: var(--color-blue-600);
+  --color-secondary-700: var(--color-blue-700);
+  --color-secondary-800: var(--color-blue-800);
+  --color-secondary-900: var(--color-blue-900);
+  --color-secondary-main: var(--color-blue-500);
+  --font-kalameh: kalameh;
+}
+@custom-variant dark (&:where(.dark, .dark *));
+
+a {
+  @apply text-blue-500;
+}
+#root {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+button {
+  cursor: pointer;
+}
+@layer utilities {
+  .stats {
+    position: relative;
+  }
+  .stats::before {
+    content: attr(data-stats);
+    width: 22px;
+    height: 22px;
+    min-width: auto;
+    background-color: var(--color-red-500);
+    border-radius: 50%;
+    color: white;
+    top: -12px;
+    right: -12px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    display: flex;
+    position: absolute;
+  }
+  .stats-circle::before {
+    --radius: 50%;
+    --min-w: auto;
+    --h: 22px;
+    --w: 22px;
+  }
+}
+.dropdown {
+  @apply absolute left-0 top-5 w-52 bg-white dark:bg-slate-800 text-sm rounded-lg shadow-lg dark:shadow-2xl overflow-hidden opacity-0 translate-y-2 scale-95 pointer-events-none group-focus-within:opacity-100 group-focus-within:translate-y-0 group-focus-within:scale-100 group-focus-within:pointer-events-auto group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100 group-hover:pointer-events-auto transition-all duration-200 z-50;
+}
