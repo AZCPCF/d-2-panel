@@ -152,7 +152,7 @@ export default function LoginForm() {
         <Sun className="dark:hidden" />
       </button>
 
-      <div className="max-w-[400px] max-sm:max-w-[340px] w-[400px] mx-auto mt-10 p-4 rounded-lg shadow absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-base backdrop-blur-[8px] bg-black/30 dark:bg-black/40 text-white">
+      <div className="max-[510px]:max-w-[450px] max-[456px]:w-[360px] w-[500px] mx-auto mt-10 p-4 rounded-lg shadow absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl max-sm:text-xl max-[500px]:!text-base backdrop-blur-[8px] bg-black/30 dark:bg-black/40 text-white">
         <div className="flex justify-center flex-wrap gap-3 pb-4">
           <img src={logo} className="max-w-32 brightness-0 invert-100" />
           <h2 className="text-xl font-bold mb-4 text-center w-full">
@@ -207,7 +207,7 @@ export default function LoginForm() {
           {step === "phone" && (
             <button
               type="submit"
-              className="w-full bg-primary-main text-white py-2 rounded not-disabled:hover:bg-primary-600/75 disabled:cursor-progress disabled:opacity-50"
+              className="w-full bg-primary-main text-white duration-100 py-2 rounded not-disabled:hover:bg-primary-600/75 disabled:cursor-progress disabled:opacity-50"
               disabled={loginMutation.isPending}
             >
               {loginMutation.isPending ? "در حال ارسال کد..." : "دریافت کد"}
