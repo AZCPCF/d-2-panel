@@ -10,13 +10,13 @@ import { cn } from "../../utils/cn";
 import { appUrl } from "../../utils/env";
 import { toggleTheme } from "../../utils/toggle-theme";
 import { otpSchema, phoneSchema } from "../../validations/login";
+import OtpTimer from "../../components/login/timer";
 
 export default function LoginForm() {
   const [step, setStep] = useState<"phone" | "otp">("phone");
   const [isVerifying, setIsVerifying] = useState(false);
 
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
-  const [timer, setTimer] = useState(0);
   const { isAuthenticated, login } = useAuth();
   const navigate = useNavigate();
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -25,15 +25,7 @@ export default function LoginForm() {
     if (isAuthenticated) navigate({ to: "/" });
   }, [isAuthenticated, navigate]);
 
-  // Countdown Timer
-  useEffect(() => {
-    if (step === "otp" && timer > 0) {
-      const interval = setInterval(() => setTimer((t) => t - 1), 1000);
-      return () => clearInterval(interval);
-    } else if (timer === 0 && step === "otp") {
-      setStep("phone");
-    }
-  }, [step, timer]);
+  const [otpTimerSeconds, setOtpTimerSeconds] = useState<number | null>(null);
 
   const loginMutation = useReactMutation<{
     message: string;
@@ -71,7 +63,7 @@ export default function LoginForm() {
             const totalSeconds = (data.minutes ?? 0) * 60 + (data.seconds ?? 0);
             setStep("otp");
             setOtp(Array(6).fill(""));
-            setTimer(totalSeconds);
+            setOtpTimerSeconds(totalSeconds);
             toast.success("کد با موفقیت ارسال شد.");
           }
         },
@@ -144,12 +136,17 @@ export default function LoginForm() {
     const phone = phoneForm.getFieldValue("phone");
     await submitPhoneNumber(phone);
   };
-
+  useEffect(() => {
+    if (step == "otp") {
+      (document?.querySelector("#otp-input-0") as HTMLInputElement)?.focus();
+    }
+  }, [step]);
+  console.log(step);
   return (
     <div className="w-screen h-screen absolute top-0 left-0 bg-[url(/login-back.webp)] dark:bg-[url(/login-back-dark.webp)] bg-cover">
       <button
         onClick={toggleTheme}
-        className="absolute top-4 left-4 bg-white/80 dark:bg-black/40 p-2 rounded-full shadow-md text-2xl z-10 text-primary-main"
+        className="absolute top-4 left-4 bg-white dark:bg-black/40 p-2 rounded-full shadow-md text-2xl z-10 text-primary-main"
       >
         <Moon className="hidden dark:block" />
         <Sun className="dark:hidden" />
@@ -231,6 +228,7 @@ export default function LoginForm() {
                       inputRefs.current[i] = el;
                     }}
                     type="text"
+                    id={`otp-input-${i}`}
                     inputMode="numeric"
                     maxLength={1}
                     className="w-10 h-10 text-center text-xl border rounded"
@@ -253,22 +251,14 @@ export default function LoginForm() {
                 isVerifying && "hidden"
               )}
             >
-              {timer > 0 ? (
-                <span>
-                  ارسال مجدد کد بعد از {Math.floor(timer / 60)}:
-                  {(timer % 60).toString().padStart(2, "0")}
-                </span>
-              ) : (
-                <button
-                  type="button"
-                  onClick={handleResend}
-                  disabled={loginMutation.isPending}
-                  className="text-blue-600 underline disabled:opacity-50"
-                >
-                  {loginMutation.isPending
-                    ? "در حال ارسال..."
-                    : "ارسال مجدد کد"}
-                </button>
+              {step === "otp" && otpTimerSeconds !== null && !isVerifying && (
+                <OtpTimer
+                  key={otpTimerSeconds} // ensures reset on new OTP
+                  initialSeconds={otpTimerSeconds}
+                  onExpire={() => setStep("phone")}
+                  onResend={handleResend}
+                  isPending={loginMutation.isPending}
+                />
               )}
             </div>
           </>
