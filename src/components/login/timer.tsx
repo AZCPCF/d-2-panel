@@ -33,7 +33,7 @@ export default function OtpTimer({
   }, [timeLeft, onExpire]);
 
   return (
-    <div className="text-center text-lg mt-2 text-gray-300 p-2">
+    <div className="text-center text-lg mt-0 text-gray-300 p-2">
       {timeLeft > 0 ? (
         <span>
           ارسال مجدد کد بعد از {Math.floor(timeLeft / 60)}:
