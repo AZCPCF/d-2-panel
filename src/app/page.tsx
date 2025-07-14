@@ -7,7 +7,7 @@ export default function HomePage() {
       {routes.map((item, index) => (
         <Link
           to={item.route}
-          className="shadow-md w-full aspect-square flex justify-center items-center hover:scale-105 duration-100 bg-background rounded-lg"
+          className="shadow-md w-full aspect-square flex justify-center items-center hover:scale-105 duration-100 bg-background rounded-xl"
           key={index}
         >
           <div className="text-primary-main flex justify-center items-center flex-wrap text-2xl max-lg:text-lg gap-1.5">
