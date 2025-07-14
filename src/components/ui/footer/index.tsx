@@ -1,7 +1,6 @@
-import { appUrl } from "../../../utils/env";
+import { Copyright } from "lucide-react";
 import { useAuth } from "../../../context/auth-context";
 import { cn } from "../../../utils/cn";
-import { Copyright } from "lucide-react";
 
 export default function Footer() {
   const { isAuthenticated } = useAuth();
@@ -14,7 +13,7 @@ export default function Footer() {
     >
       <a
         target="_blank"
-        href={appUrl}
+        href={"https://www.dadekavweb.ir"}
         className="flex dark:!text-[#fed00d] flex-row-reverse text-xl items-center gap-2"
       >
         <Copyright /> dadekavweb
