@@ -18,9 +18,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const cookieToken = getTokenFromCookies();
     setToken(cookieToken);
   }, []);
-
   const login = (newToken: string) => {
-    document.cookie = `${tokenKey}=${newToken}; path=/`;
+    const oneYearInSeconds = 60 * 60 * 24 * 365;
+    document.cookie = `${tokenKey}=${newToken}; path=/; max-age=${oneYearInSeconds}; secure; SameSite=Lax`;
     setToken(newToken);
   };
 

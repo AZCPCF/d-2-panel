@@ -1,15 +1,17 @@
 import { Link, useNavigate } from "@tanstack/react-router";
+import {
+  CircleUser,
+  LogOut,
+  Mail,
+  Moon,
+  ShoppingCart,
+  Sun,
+} from "lucide-react";
 import { useState } from "react";
-import { FaShoppingCart, FaUser } from "react-icons/fa";
-import { IoMdMoon } from "react-icons/io";
-import { LuLogOut } from "react-icons/lu";
-import { MdOutlineMessage, MdSunny } from "react-icons/md";
-import { PiUserCircleLight } from "react-icons/pi";
 import logo from "../../../assets/images/logo.png";
 import { useAuth } from "../../../context/auth-context";
 import { cn } from "../../../utils/cn";
 import { toggleTheme } from "../../../utils/toggle-theme";
-
 export default function Header() {
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
@@ -42,8 +44,8 @@ export default function Header() {
             onClick={toggleTheme}
             className="dark:!text-primary-main text-white pb-1.5 text-[28px]"
           >
-            <IoMdMoon className="hidden dark:block" />
-            <MdSunny className="dark:hidden" />
+            <Moon className="hidden dark:block" />
+            <Sun className="dark:hidden" />
           </button>
 
           {/* Cart Dropdown */}
@@ -52,7 +54,7 @@ export default function Header() {
               onClick={() => handleToggle("cart")}
               className="text-white dark:!text-primary-main text-2xl"
             >
-              <FaShoppingCart />
+              <ShoppingCart />
             </button>
             <div
               className={cn(
@@ -84,7 +86,7 @@ export default function Header() {
               onClick={() => handleToggle("account")}
               className="text-white dark:!text-primary-main text-2xl"
             >
-              <FaUser />
+              <CircleUser />
             </button>
             <div
               className={cn(
@@ -99,7 +101,7 @@ export default function Header() {
                 onClick={() => setOpenDropdown(null)}
                 className="flex items-center gap-2 px-4 py-2 !text-black dark:!text-white hover:bg-gray-100 dark:hover:bg-slate-600 text-xl"
               >
-                <PiUserCircleLight className="text-2xl" />
+                <CircleUser className="text-2xl" />
                 مشخصات کاربر
               </Link>
               <Link
@@ -107,7 +109,7 @@ export default function Header() {
                 onClick={() => setOpenDropdown(null)}
                 className="flex items-center gap-2 px-4 py-2 !text-black dark:!text-white hover:bg-gray-100 dark:hover:bg-slate-600 text-xl relative"
               >
-                <MdOutlineMessage className="text-xl" />
+                <Mail className="text-xl" />
                 <span>پیام‌ها</span>
                 <div className="absolute top-1/2 left-6 translate-y-1/2">
                   <div className="stats" data-stats={10}></div>
@@ -121,7 +123,7 @@ export default function Header() {
                 }}
                 className="flex items-center gap-2 text-lg text-red-500 w-full text-right px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-600"
               >
-                <LuLogOut className="text-lg" />
+                <LogOut className="text-lg" />
                 خروج
               </button>
             </div>

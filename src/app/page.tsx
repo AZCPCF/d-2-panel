@@ -11,7 +11,7 @@ export default function HomePage() {
           key={index}
         >
           <div className="text-primary-main flex justify-center items-center flex-wrap text-2xl max-lg:text-lg gap-1.5">
-            <item.icon className="w-full !text-3xl max-sm:!text-2xl" />
+            <item.icon size={36} className="w-full" />
             <p className="w-max">{item.title}</p>
           </div>
         </Link>

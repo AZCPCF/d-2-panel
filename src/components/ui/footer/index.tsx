@@ -1,7 +1,7 @@
-import { FaRegCopyright } from "react-icons/fa";
 import { appUrl } from "../../../utils/env";
 import { useAuth } from "../../../context/auth-context";
 import { cn } from "../../../utils/cn";
+import { Copyright } from "lucide-react";
 
 export default function Footer() {
   const { isAuthenticated } = useAuth();
@@ -17,7 +17,7 @@ export default function Footer() {
         href={appUrl}
         className="flex dark:!text-[#fed00d] flex-row-reverse text-xl items-center gap-2"
       >
-        <FaRegCopyright /> dadekavweb
+        <Copyright /> dadekavweb
       </a>
     </footer>
   );

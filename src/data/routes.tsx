@@ -1,23 +1,26 @@
-import type { IconType } from "react-icons";
-import { BiSupport } from "react-icons/bi";
 import {
-    FaRegComment
-} from "react-icons/fa";
-import { FaRegMessage } from "react-icons/fa6";
-import { IoWalletOutline } from "react-icons/io5";
-import { LuShoppingBag, LuShoppingCart } from "react-icons/lu";
-import { MdFavoriteBorder, MdOutlineLocationOn } from "react-icons/md";
-import { RiCake2Line, RiDiscountPercentLine } from "react-icons/ri";
+  BookHeart,
+  Cake,
+  CirclePercent,
+  Headset,
+  Mail,
+  MapPin,
+  MessageCircle,
+  ShoppingBag,
+  ShoppingCart,
+  Wallet,
+  type LucideIcon,
+} from "lucide-react";
 
-export const routes: { title: string; route: string; icon: IconType }[] = [
-  { title: "سفارشات", route: "orders", icon: LuShoppingBag },
-  { title: "کیف پول", route: "wallet", icon: IoWalletOutline },
-  { title: "آدرس ها", route: "addresses", icon: MdOutlineLocationOn },
-  { title: "سبد خرید", route: "cart", icon: LuShoppingCart },
-  { title: "پیام ها", route: "messages", icon: FaRegMessage },
-  { title: "تخفیف ها", route: "discounts", icon: RiDiscountPercentLine },
-  { title: "یادآور تولد", route: "birth-dates", icon: RiCake2Line },
-  { title: "علاقه مندی ها", route: "favorites", icon: MdFavoriteBorder },
-  { title: "پشتیبانی", route: "tickets", icon: BiSupport },
-  { title: "نظرات", route: "comments", icon: FaRegComment },
+export const routes: { title: string; route: string; icon: LucideIcon }[] = [
+  { title: "سفارشات", route: "orders", icon: ShoppingBag },
+  { title: "کیف پول", route: "wallet", icon: Wallet },
+  { title: "آدرس ها", route: "addresses", icon: MapPin },
+  { title: "سبد خرید", route: "cart", icon: ShoppingCart },
+  { title: "پیام ها", route: "messages", icon: Mail },
+  { title: "تخفیف ها", route: "discounts", icon: CirclePercent },
+  { title: "یادآور تولد", route: "birth-dates", icon: Cake },
+  { title: "علاقه مندی ها", route: "favorites", icon: BookHeart },
+  { title: "پشتیبانی", route: "tickets", icon: Headset },
+  { title: "نظرات", route: "comments", icon: MessageCircle },
 ];
