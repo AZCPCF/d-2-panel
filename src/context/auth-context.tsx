@@ -19,12 +19,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
   const login = (newToken: string) => {
     const oneYearInSeconds = 60 * 60 * 24 * 365;
-    document.cookie = `${tokenKey}=${newToken}; path=/; max-age=${oneYearInSeconds}; secure; SameSite=Lax`;
+    document.cookie = `${tokenKey}=${newToken}; path=/;Domain=.vercel.app; max-age=${oneYearInSeconds}; secure; SameSite=Lax`;
     setToken(newToken);
   };
 
   const logout = () => {
-    document.cookie = `${tokenKey}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+    document.cookie = `${tokenKey}=; path=/;Domain=.vercel.app; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
     setToken(null);
   };
 
