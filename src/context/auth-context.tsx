@@ -1,31 +1,33 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { tokenKey } from "../utils/env";
 import getTokenFromCookies from "../utils/get-token";
-
+import Cookies from "js-cookie";
 type AuthContextType = {
-  token: string | null;
+  token: string | undefined;
   isAuthenticated: boolean;
   login: (token: string) => void;
   logout: () => void;
 };
 
-const AuthContext = createContext<AuthContextType | null>(null);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [token, setToken] = useState<string | null>(null);
+  const [token, setToken] = useState<string | undefined>(undefined);
   useEffect(() => {
     const cookieToken = getTokenFromCookies();
     setToken(cookieToken);
   }, []);
   const login = (newToken: string) => {
-    const oneYearInSeconds = 60 * 60 * 24 * 365;
-    document.cookie = `${tokenKey}=${newToken}; path=/;Domain=.vercel.app; max-age=${oneYearInSeconds}; secure; SameSite=Lax`;
+    Cookies.set(tokenKey || "", newToken, {
+      expires: 365,
+      // domain: ".vercel.app",
+    });
     setToken(newToken);
   };
 
   const logout = () => {
-    document.cookie = `${tokenKey}=; path=/;Domain=.vercel.app; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
-    setToken(null);
+    Cookies.remove(tokenKey || "");
+    setToken(undefined);
   };
 
   return (
