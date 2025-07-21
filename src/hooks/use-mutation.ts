@@ -1,5 +1,6 @@
 import { useMutation, type MutationOptions } from "@tanstack/react-query";
-import { apiUrlPrimary, apiUrlSecondary, tokenKey } from "../utils/env";
+import { apiUrlPrimary, apiUrlSecondary } from "../utils/env";
+import getTokenFromCookies from "../utils/get-token";
 
 type RequestOptions = {
   endpoint: string;
@@ -28,14 +29,10 @@ export const useReactMutation = <
   mutationConfig?: Omit<MutationOptions<TData, Error, TVariables>, "mutationFn">
 ) => {
   const mutationFn = async (options: TVariables): Promise<TData> => {
-    const token =
-      typeof window !== "undefined"
-        ? localStorage.getItem(tokenKey || "")
-        : undefined;
-
+    const token = getTokenFromCookies()
     const isFormData = options.body instanceof FormData;
     const headers: Record<string, string> = {
-      ...(token ? { Authorization: token } : {}),
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...options.headers,
     };
 

@@ -1,5 +1,6 @@
-import { useQuery, type QueryOptions } from "@tanstack/react-query";
-import { apiUrlPrimary, apiUrlSecondary, tokenKey } from "../utils/env";
+import { useQuery, type QueryObserverOptions } from "@tanstack/react-query";
+import { useAuth } from "../context/auth-context";
+import { apiUrlPrimary, apiUrlSecondary } from "../utils/env";
 
 type RequestOptions = {
   endpoint: string;
@@ -23,23 +24,18 @@ const buildQueryString = (params?: RequestOptions["params"]): string => {
 
 export const useReactQuery = <T>(
   options: RequestOptions,
-  queryConfig?: Omit<QueryOptions<T>, "queryKey" | "queryFn">
+  queryConfig?: Omit<QueryObserverOptions<T>, "queryKey" | "queryFn">
 ) => {
   const queryKey = [
     options.endpoint,
     options.params ?? null,
     options.method ?? "GET",
   ];
-
+  const { logout, token } = useAuth();
   const fetchFn = async (): Promise<T> => {
-    const token =
-      typeof window !== "undefined"
-        ? localStorage.getItem(tokenKey || "")
-        : undefined;
-
     const isFormData = options.body instanceof FormData;
     const headers: Record<string, string> = {
-      ...(token ? { Authorization: token } : {}),
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...options.headers,
     };
 
@@ -62,7 +58,9 @@ export const useReactQuery = <T>(
           : undefined,
       }
     );
-
+    if (res.status == 401) {
+      logout();
+    }
     if (!res.ok) {
       const errorText = await res.text();
       throw new Error(`API ${res.status}: ${res.statusText} - ${errorText}`);

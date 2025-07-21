@@ -7,6 +7,7 @@ import {
 import type { FC } from "react";
 import Layout from "./layout";
 import NotFound from "./not-found";
+import getTokenFromCookies from "../utils/get-token";
 
 // --- Router Context Type ---
 export type RouterContext = {
@@ -45,16 +46,14 @@ export const createRouterFn = (token: string | null) => {
       ...(isLogin
         ? {}
         : {
-            beforeLoad: ({ context }) => {
-              if (!context.auth.isAuthenticated) {
+            beforeLoad: () => {
+              if (!getTokenFromCookies()) {
                 throw redirect({ to: "/login" });
               }
             },
           }),
     });
   });
-
-  // Separate login and protected routes
 
   // Build route tree
   const routeTree = rootRoute.addChildren(routes);

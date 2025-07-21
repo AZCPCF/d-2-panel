@@ -12,10 +12,11 @@ import logo from "../../../assets/images/logo.png";
 import { useAuth } from "../../../context/auth-context";
 import { cn } from "../../../utils/cn";
 import { toggleTheme } from "../../../utils/toggle-theme";
+import { useClient } from "../../../context/client-context";
 export default function Header() {
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
-
+  const { cart_count, unread_discount, unread_message } = useClient();
   const [openDropdown, setOpenDropdown] = useState<null | "cart" | "account">(
     null
   );
@@ -33,7 +34,7 @@ export default function Header() {
           <img
             src={logo}
             alt="logo"
-            className="brightness-0 invert-100 w-12 h-12"
+            className="brightness-0 invert-100 w-14 h-14"
           />
         </Link>
 
@@ -52,7 +53,8 @@ export default function Header() {
           <div className="relative">
             <button
               onClick={() => handleToggle("cart")}
-              className="text-white dark:!text-primary-main text-2xl"
+              data-stats={cart_count}
+              className="text-white dark:!text-primary-main text-2xl stats"
             >
               <ShoppingCart />
             </button>
@@ -84,7 +86,8 @@ export default function Header() {
           <div className="relative">
             <button
               onClick={() => handleToggle("account")}
-              className="text-white dark:!text-primary-main text-2xl"
+              data-stats={unread_discount + unread_message}
+              className="text-white dark:!text-primary-main text-2xl stats"
             >
               <CircleUser />
             </button>
@@ -112,7 +115,10 @@ export default function Header() {
                 <Mail className="text-xl" />
                 <span>پیام‌ها</span>
                 <div className="absolute top-1/2 left-6 translate-y-1/2">
-                  <div className="stats" data-stats={10}></div>
+                  <div
+                    className="stats"
+                    data-stats={unread_discount + unread_message}
+                  ></div>
                 </div>
               </Link>
               <button

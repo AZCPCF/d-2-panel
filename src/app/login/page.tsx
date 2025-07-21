@@ -46,7 +46,7 @@ export default function LoginForm() {
         {
           endpoint: "user_login",
           method: "POST",
-          apiUrl: "primary",
+          apiUrl: "secondary",
           body: {
             phone_number: (
               document.querySelector(
@@ -101,7 +101,7 @@ export default function LoginForm() {
       {
         endpoint: "user_login",
         method: "POST",
-        apiUrl: "primary",
+        apiUrl: "secondary",
         body: {
           phone_number: phone,
         },
@@ -158,7 +158,7 @@ export default function LoginForm() {
       {
         endpoint: "user_login",
         method: "POST",
-        apiUrl: "primary",
+        apiUrl: "secondary",
         body: {
           phone_number: (
             document.querySelector(
@@ -240,7 +240,7 @@ export default function LoginForm() {
                   id="phone-number-input-login"
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
-                  className="input disabled:bg-gray-500/40 disabled:cursor-not-allowed"
+                  className="login-input disabled:bg-gray-500/40 disabled:cursor-not-allowed"
                   placeholder="09123456789"
                 />
                 {field.state.meta.errors?.length > 0 && (
@@ -334,7 +334,7 @@ export default function LoginForm() {
                       type="text"
                       value={field.state.value}
                       onChange={(e) => field.handleChange(e.target.value)}
-                      className="input"
+                      className="login-input"
                     />
                     {field.state.meta.errors?.length > 0 && (
                       <p className="text-red-500 text-sm mt-1">
@@ -353,7 +353,7 @@ export default function LoginForm() {
                       type="text"
                       value={field.state.value}
                       onChange={(e) => field.handleChange(e.target.value)}
-                      className="input"
+                      className="login-input"
                       placeholder="کد معرف را وارد کنید"
                     />
                   </div>
