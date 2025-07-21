@@ -18,7 +18,7 @@ export default function CommentsPage() {
   return (
     <>
       <Divider title={"نظرات"} />
-      <div className="grid grid-cols-4 mt-4 max-xl:grid-cols-3 max-lg:grid-cols-2 max-md:grid-cols-1">
+      <div className="grid grid-cols-4 mt-4 max-xl:grid-cols-3 max-lg:grid-cols-2 max-md:grid-cols-1 gap-3">
         {data?.data.length ? (
           data.data.map((comment) => (
             <CommentCard key={comment.id} comment={comment} />
