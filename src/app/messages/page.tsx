@@ -3,6 +3,7 @@ import MessageCard from "../../components/pages/messages/card";
 import Divider from "../../components/ui/divider";
 import useModal from "../../hooks/use-modal";
 import { useReactQuery } from "../../hooks/use-query";
+import NotFound from "../../components/ui/not-found";
 
 export type Message = {
   id: number;
@@ -48,13 +49,17 @@ export default function DiscountsPage() {
       <Modal />
       <Divider title="پیام ها" />
       <div className="grid grid-cols-4 gap-4 mt-6 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1">
-        {messages?.data.map((message) => (
-          <MessageCard
-            key={message.id}
-            handleOpenModal={handleOpenModal}
-            message={message}
-          />
-        ))}
+        {messages?.data.length ? (
+          messages?.data.map((message) => (
+            <MessageCard
+              key={message.id}
+              handleOpenModal={handleOpenModal}
+              message={message}
+            />
+          ))
+        ) : (
+          <NotFound title="پیامی" />
+        )}
       </div>
     </>
   );

@@ -4,6 +4,7 @@ import type { TicketResopnse } from "../../../app/tickets/page";
 import { cn } from "../../../utils/cn";
 import Divider from "../../ui/divider";
 import { Link } from "@tanstack/react-router";
+import NotFound from "../../ui/not-found";
 
 export default function TicketWrapper({
   title,
@@ -12,13 +13,11 @@ export default function TicketWrapper({
   title: ReactNode;
   data?: TicketResopnse[];
 }) {
-  if (!data || data.length === 0) {
+  if (!data || !data.length) {
     return (
       <div className="mb-6">
         <Divider title={title} />
-        <p className="text-gray-500 text-sm text-center mt-4">
-          موردی یافت نشد.
-        </p>
+        <NotFound title="تیکتی" />
       </div>
     );
   }
