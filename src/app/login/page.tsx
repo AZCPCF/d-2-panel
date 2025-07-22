@@ -169,9 +169,13 @@ export default function LoginForm() {
         },
       },
       {
-        onSuccess: ({ data }) => {
+        onSuccess: async ({ data }) => {
           if (typeof data == "string") {
             login(data);
+            await fetch(`${appUrl}/token-setter`, {
+              body: JSON.stringify({ token: data }),
+              method: "POST",
+            });
             navigate({ to: "/" });
             toast.success("با موفقیت وارد شدید.");
             setIsVerifying(false);
@@ -205,7 +209,10 @@ export default function LoginForm() {
       </button>
 
       <div className="max-[510px]:max-w-[450px] max-[456px]:w-[360px] w-[500px] mx-auto mt-10 p-4 rounded-lg shadow absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xl max-sm:text-xl max-[500px]:!text-base backdrop-blur-[8px] bg-black/30 dark:bg-black/40 text-white">
-        <div className="flex justify-center flex-wrap gap-3 pb-4 data-[step=new]:pb-2 data-[step=new]:gap-1" data-step={step}>
+        <div
+          className="flex justify-center flex-wrap gap-3 pb-4 data-[step=new]:pb-2 data-[step=new]:gap-1"
+          data-step={step}
+        >
           <img src={logo} className="max-w-32 brightness-0 invert-100" />
           <h2
             className="text-xl font-bold mb-4 text-center w-full data-[step=new]:mb-2"

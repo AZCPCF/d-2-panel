@@ -21,7 +21,7 @@ export const ClientProvider = ({ children }: { children: React.ReactNode }) => {
     if (isAuthenticated) {
       refetch();
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, refetch]);
   return (
     <ClientContext.Provider
       value={
