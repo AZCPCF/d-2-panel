@@ -7,6 +7,7 @@ import { useReactQuery } from "../../hooks/use-query";
 import { fileUrl } from "../../utils/env";
 import { formatNumberWithCommas } from "../../utils/formater";
 import { Link } from "@tanstack/react-router";
+import NotFound from "../../components/ui/not-found";
 
 type CartResponse = {
   product: {
@@ -156,13 +157,16 @@ export default function CartPage() {
               برای تکمیل خرید , انتخاب آدرس و اعمال کد تخفیف روی دکمه زیر کلیک
               کنید.
             </span>
-            <Link to="submit" className="px-4 py-2 rounded-md font-medium transition-all border border-transparent text-lg bg-primary-main !text-white text-center hover:bg-primary-600">
+            <Link
+              to="submit"
+              className="px-4 py-2 rounded-md font-medium transition-all border border-transparent text-lg bg-primary-main !text-white text-center hover:bg-primary-600"
+            >
               تکمیل خرید
             </Link>
           </div>
         </div>
       ) : (
-        <div className="text-center my-10 text-xl">سبد خرید خالی می‌باشد.</div>
+        <NotFound title="محصولی" />
       )}
     </>
   );

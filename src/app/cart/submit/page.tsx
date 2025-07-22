@@ -172,9 +172,9 @@ export default function SubmitPage() {
                 <label
                   key={addr.id}
                   className={cn(
-                    "block border p-3 rounded h-max",
+                    "block border p-3 rounded h-max duration-100",
                     selectedAddressId === addr.id
-                      ? "border-blue-500"
+                      ? "border-blue-500 shadow-md"
                       : "border-gray-300"
                   )}
                 >

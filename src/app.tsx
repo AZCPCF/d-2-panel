@@ -10,7 +10,7 @@ export default function App() {
     applyStoredTheme();
   }, []);
   const auth = useAuth();
-  const router = useMemo(() => createRouterFn(auth.token), [auth.token]);
+  const router = useMemo(() => createRouterFn(auth.token!), [auth.token]);
   return (
     <>
       <Toaster

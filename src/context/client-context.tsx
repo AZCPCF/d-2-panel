@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect, useLayoutEffect } from "react";
 import { useReactQuery } from "../hooks/use-query";
 import { useAuth } from "./auth-context";
 
@@ -12,11 +12,16 @@ export type ClientContextType = {
 const ClientContext = createContext<ClientContextType | null>(null);
 
 export const ClientProvider = ({ children }: { children: React.ReactNode }) => {
-  const { token } = useAuth();
-  const { data } = useReactQuery<ClientContextType>(
+  const { isAuthenticated } = useAuth();
+  const { data, refetch } = useReactQuery<ClientContextType>(
     { endpoint: "stats" },
-    { enabled: Boolean(token), retry: 1 }
+    { enabled: false }
   );
+  useEffect(() => {
+    if (isAuthenticated) {
+      refetch();
+    }
+  }, [isAuthenticated]);
   return (
     <ClientContext.Provider
       value={

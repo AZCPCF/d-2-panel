@@ -3,6 +3,7 @@ import { useReactQuery } from "../../hooks/use-query";
 import { cn } from "../../utils/cn";
 import Divider from "../../components/ui/divider";
 import { Link } from "lucide-react";
+import NotFound from "../../components/ui/not-found";
 
 type OrderStatus =
   | "pending_payment"
@@ -45,8 +46,8 @@ export default function OrdersPage() {
       : (data?.orders || []).filter((order) => order.status === selectedStatus);
 
   return (
-    <div className="p-4 dark:text-white">
-      <Divider title="سفارش‌های من" />
+    <div className="dark:text-white">
+      <Divider title="سفارشات" />
 
       <div className="grid  grid-cols-6 gap-3 my-4 bg-background/70 rounded-md p-4 backdrop-blur-md">
         <FilterButton
@@ -66,8 +67,8 @@ export default function OrdersPage() {
 
       {isLoading ? (
         <div>در حال بارگذاری...</div>
-      ) : filteredOrders.length === 0 ? (
-        <div>سفارشی با این وضعیت یافت نشد.</div>
+      ) : !filteredOrders.length ? (
+        <NotFound title="سفارشی" />
       ) : (
         <div className="space-y-4">
           {filteredOrders.map((order) => (

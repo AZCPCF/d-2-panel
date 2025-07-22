@@ -5,6 +5,7 @@ import Divider from "../../components/ui/divider";
 import useModal from "../../hooks/use-modal";
 import { useReactMutation } from "../../hooks/use-mutation";
 import { useReactQuery } from "../../hooks/use-query";
+import NotFound from "../../components/ui/not-found";
 
 export default function AddressesPage() {
   const { Modal, modalOpener, modalCloser } = useModal();
@@ -29,32 +30,36 @@ export default function AddressesPage() {
         }}
       />
       <div className="grid grid-cols-5 gap-4 mt-6 max-xl:grid-cols-4 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1">
-        {data?.data.map((item) => (
-          <AddressCard
-            key={item.id}
-            data={item}
-            onEdit={() =>
-              modalOpener(
-                <AddAddressModal
-                  modalCloser={modalCloser}
-                  refetch={refetch}
-                  data={item}
-                />
-              )
-            }
-            onDelete={async () => {
-              await deleteMutation.mutateAsync(
-                { endpoint: `address/${item.id}`, method: "DELETE" },
-                {
-                  onSuccess: () => {
-                    toast.success("حذف آدرس با موفقیت انجام شد");
-                    refetch();
-                  },
-                }
-              );
-            }}
-          />
-        ))}
+        {data?.data.length ? (
+          data?.data.map((item) => (
+            <AddressCard
+              key={item.id}
+              data={item}
+              onEdit={() =>
+                modalOpener(
+                  <AddAddressModal
+                    modalCloser={modalCloser}
+                    refetch={refetch}
+                    data={item}
+                  />
+                )
+              }
+              onDelete={async () => {
+                await deleteMutation.mutateAsync(
+                  { endpoint: `address/${item.id}`, method: "DELETE" },
+                  {
+                    onSuccess: () => {
+                      toast.success("حذف آدرس با موفقیت انجام شد");
+                      refetch();
+                    },
+                  }
+                );
+              }}
+            />
+          ))
+        ) : (
+          <NotFound title="آدرس" />
+        )}
       </div>
     </>
   );

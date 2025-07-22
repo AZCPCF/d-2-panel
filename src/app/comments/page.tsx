@@ -1,5 +1,6 @@
 import CommentCard from "../../components/pages/comment/card";
 import Divider from "../../components/ui/divider";
+import NotFound from "../../components/ui/not-found";
 import { useReactQuery } from "../../hooks/use-query";
 
 export default function CommentsPage() {
@@ -24,9 +25,7 @@ export default function CommentsPage() {
             <CommentCard key={comment.id} comment={comment} />
           ))
         ) : (
-          <p className="text-center text-gray-500 col-span-full">
-            هیچ نظری یافت نشد.
-          </p>
+          <NotFound title="نظری" />
         )}
       </div>
     </>

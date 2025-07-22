@@ -8,6 +8,7 @@ import { useReactQuery } from "../../hooks/use-query";
 import { birthDateSchema } from "../../validations/birth";
 import BirthDateCard from "../../components/pages/birth-dates/card";
 import { useState } from "react";
+import NotFound from "../../components/ui/not-found";
 
 type BirthDateItem = {
   id: number;
@@ -150,17 +151,21 @@ export default function BirthDatesPage() {
       />
 
       <div className="grid grid-cols-5 gap-4 mt-6 max-xl:grid-cols-4 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1">
-        {data?.data.map((item) => (
-          <BirthDateCard
-            key={item.id}
-            id={item.id}
-            title={item.title}
-            date={item.date.string}
-            isMenuOpen={openMenuId === item.id}
-            onMenuToggle={handleMenuToggle}
-            onDelete={handleDelete}
-          />
-        ))}
+        {data?.data.length ? (
+          data?.data.map((item) => (
+            <BirthDateCard
+              key={item.id}
+              id={item.id}
+              title={item.title}
+              date={item.date.string}
+              isMenuOpen={openMenuId === item.id}
+              onMenuToggle={handleMenuToggle}
+              onDelete={handleDelete}
+            />
+          ))
+        ) : (
+          <NotFound title="یادآوری" />
+        )}
       </div>
     </>
   );

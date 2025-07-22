@@ -1,8 +1,8 @@
-
 import { useParams } from "@tanstack/react-router";
 import { useReactQuery } from "../../../hooks/use-query";
 import { formatNumberWithCommas } from "../../../utils/formater";
 import Divider from "../../../components/ui/divider";
+import NotFound from "../../../components/ui/not-found";
 
 type OrderStatus =
   | "pending_payment"
@@ -42,14 +42,14 @@ type OrderDetail = {
 };
 
 export default function OrderDetailPage() {
-  const { id } = useParams({from:""});
+  const { id } = useParams({ from: "" });
 
   const { data, isLoading } = useReactQuery<{ order: OrderDetail }>({
     endpoint: `orders/${id}`,
   });
 
   if (isLoading) return <div className="p-4">در حال بارگذاری...</div>;
-  if (!data?.order) return <div className="p-4">سفارش یافت نشد.</div>;
+  if (!data?.order) return <NotFound title="سفارش" />;
 
   const { order } = data;
 
