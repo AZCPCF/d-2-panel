@@ -194,7 +194,6 @@ export default function LoginForm() {
       (document?.querySelector("#otp-input-0") as HTMLInputElement)?.focus();
     }
   }, [step]);
-  console.log(step);
   return (
     <div className="w-screen min-h-screen overflow-auto absolute top-0 left-0 bg-[url(/login-back.webp)] dark:bg-[url(/login-back-dark.webp)] bg-cover">
       <button

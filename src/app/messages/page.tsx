@@ -23,7 +23,8 @@ export default function DiscountsPage() {
     { endpoint: `message/${id}` },
     { enabled: Boolean(id) }
   );
-  console.log(data);
+  if (data) {
+  }
   const { Modal, modalOpener } = useModal();
 
   const handleOpenModal = (message: Message) => {

@@ -1,6 +1,5 @@
 import { useParams } from "@tanstack/react-router";
 import { Check, CheckCheck, Shield, User } from "lucide-react";
-import { useState } from "react";
 import { Badge } from "../../../components/pages/profile/badge";
 import TicketMessageModal from "../../../components/pages/ticket/message-modal";
 import Divider from "../../../components/ui/divider";
@@ -51,18 +50,8 @@ export default function TicketPage() {
     endpoint: `ticket/${id}`,
   });
 
-  const [message, setMessage] = useState("");
-  const [file, setFile] = useState<File | null>(null);
 
   const { Modal, modalCloser, modalOpener } = useModal();
-
-  const handleSend = () => {
-    if (!message.trim() && !file) return;
-    console.log("Sending message:", { message, file });
-
-    setMessage("");
-    setFile(null);
-  };
 
   if (!data) return <p>در حال بارگذاری...</p>;
 

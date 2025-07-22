@@ -169,13 +169,9 @@ export default function AddAddressModal({
         onSubmit={async (e) => {
           e.preventDefault();
           if (forOther) {
-            await formOther
-              .handleSubmit()
-              .then(() => console.log("submitted other"));
+            await formOther.handleSubmit();
           } else {
-            await formSelf
-              .handleSubmit()
-              .then(() => console.log("submitted self"));
+            await formSelf.handleSubmit();
           }
         }}
         className="space-y-4 grid grid-cols-2 gap-4"

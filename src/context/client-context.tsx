@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useLayoutEffect } from "react";
+import { createContext, useContext, useEffect } from "react";
 import { useReactQuery } from "../hooks/use-query";
 import { useAuth } from "./auth-context";
 

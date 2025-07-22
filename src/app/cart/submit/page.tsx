@@ -6,6 +6,7 @@ import Divider from "../../../components/ui/divider";
 import { cn } from "../../../utils/cn";
 import { toast } from "sonner";
 import { formatNumberWithCommas } from "../../../utils/formater";
+import { Link, useNavigate } from "@tanstack/react-router";
 
 type PostOption = {
   id: number;
@@ -65,7 +66,7 @@ export default function SubmitPage() {
   const [couponCode, setCouponCode] = useState("");
   const [appliedDiscount, setAppliedDiscount] = useState(0);
   const [subtotal, setSubtotal] = useState(0);
-
+  const [paymentType, setPaymentType] = useState<"wallet" | "online">("online");
   const { mutateAsync: checkDiscount, isPending: isChecking } =
     useReactMutation<{
       code: string;
@@ -84,10 +85,19 @@ export default function SubmitPage() {
       },
     });
 
+  const navigate = useNavigate();
   const { mutateAsync: submitPayment, isPending: isPendingSubmit } =
     useReactMutation<{ link: string }>({
       onSuccess: (res) => {
-        window.open(res.link, "_self");
+        if (res.link) {
+          window.open(res.link, "_self");
+          return;
+        }
+        toast.success("ثبت سفارش با موفقیت انجام شد.");
+        navigate({ to: "/" });
+      },
+      onError: () => {
+        toast.error("ثبت سفارش انجام نشد.");
       },
     });
 
@@ -196,6 +206,68 @@ export default function SubmitPage() {
               ))}
             </div>
           </div>
+
+          <div className="my-4 bg-background/70 rounded-md p-4 backdrop-blur-md">
+            <h3 className="font-semibold text-xl mb-2">نحوه پرداخت</h3>
+            <div className="space-y-4 grid grid-cols-2 gap-2 max-md:grid-cols-1">
+              <label
+                className={cn(
+                  "border p-3 rounded duration-100 flex items-center gap-2",
+                  paymentType === "online"
+                    ? "border-blue-500 shadow-md"
+                    : "border-gray-300"
+                )}
+              >
+                <input
+                  type="radio"
+                  name="payment"
+                  value="online"
+                  checked={paymentType === "online"}
+                  onChange={() => setPaymentType("online")}
+                  className="mr-2"
+                />
+                <div className="text-sm">پرداخت آنلاین زرین‌پال</div>
+              </label>
+
+              <label
+                className={cn(
+                  "border p-3 rounded duration-100 h-max flex items-center gap-2",
+                  paymentType === "wallet"
+                    ? "border-blue-500 shadow-md"
+                    : "border-gray-300",
+                  finalPrice > data.wallet_amount && "cursor-not-allowed"
+                )}
+              >
+                <input
+                  type="radio"
+                  name="payment"
+                  value="wallet"
+                  checked={paymentType === "wallet"}
+                  onChange={() => setPaymentType("wallet")}
+                  className="mr-2"
+                  disabled={finalPrice > data.wallet_amount}
+                />
+                <div className={"text-sm flex gap-2"}>
+                  <p
+                    className={cn(
+                      finalPrice > data.wallet_amount && "opacity-50"
+                    )}
+                  >
+                    پرداخت از کیف پول (
+                    {formatNumberWithCommas(data.wallet_amount)} تومان)
+                  </p>
+                  {finalPrice > data.wallet_amount && (
+                    <>
+                      -{" "}
+                      <Link to={"/wallet"} className="opacity-100">
+                        افزایش موجودی
+                      </Link>
+                    </>
+                  )}
+                </div>
+              </label>
+            </div>
+          </div>
         </div>
 
         <div className="col-span-4 bg-background/70 max-lg:col-span-5 max-md:col-span-full backdrop-blur-md rounded-md p-4 my-4 h-max">
@@ -240,7 +312,14 @@ export default function SubmitPage() {
             onClick={async () => {
               await submitPayment({
                 endpoint: "payment",
-                body: { amount: finalPrice },
+                body: {
+                  amount: finalPrice,
+                  payment_type: paymentType,
+                  address_id: selectedAddressId,
+                  post_id: selectedPostId,
+                  packaging_id: selectedPackagingId,
+                  coupon: couponCode || null,
+                },
               });
             }}
             disabled={
@@ -249,7 +328,7 @@ export default function SubmitPage() {
               !selectedAddressId ||
               isPendingSubmit
             }
-            className="w-full mt-4 dark:disabled:!bg-gray-600 disabled:!bg-gray-300"
+            className="w-full mt-4 text-lg dark:disabled:!bg-gray-600 disabled:!bg-gray-300"
           >
             {isPendingSubmit ? "در حال پردازش..." : "ثبت سفارش"}
           </Button>
