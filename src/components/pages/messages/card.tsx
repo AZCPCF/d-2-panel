@@ -11,25 +11,21 @@ export default function MessageCard({
   return (
     <div
       key={message.id}
-      className={`rounded-xl p-5 shadow-sm hover:shadow-md transition duration-200 cursor-pointer bg-background`}
+      className={`rounded-lg p-5 shadow-sm transition duration-200 bg-background`}
     >
-      <div className="flex justify-between items-start mb-2">
-        <h3 className="font-semibold text-base text-primary truncate text-primary-main flex items-center gap-2">
-          {message.is_seen ? <MailOpen /> : <Mail />}
-          {message.title}
+      <div className="flex justify-between items-start mb-2 gap-2 text-primary-main">
+        {message.is_seen ? <MailOpen size={20} /> : <Mail size={20} />}
+        <h3 className="font-semibold w-full text-base text-parimary text-primary-main truncate">
+          {message.message.text_message}
         </h3>
-        <span className="text-md dark:text-white truncate">
-          {message.date.jdate}
-        </span>
       </div>
 
-      <p className="text-sm text-gray-600 dark:text-gray-100 mb-3 truncate">
-        {message.description}
-      </p>
-
-      <div className="flex justify-end items-center gap-2">
+      <div className="flex justify-between items-center gap-2">
+        <span className="text-md dark:text-white truncate">
+          {message.created_at.string}
+        </span>
         <button
-          className="text-xs bg-primary-200/75 text-primary-700 px-3 py-1 rounded-md hover:bg-primary-200 transition"
+          className="text-xs bg-primary-200/75 dark:bg-primary-300 text-primary-700 px-3 py-2  rounded-md hover:bg-primary-200 dark:hover:bg-primary-400 transition cursor-pointer"
           onClick={() => handleOpenModal(message)}
         >
           مشاهده بیشتر

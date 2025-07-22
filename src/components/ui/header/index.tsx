@@ -50,15 +50,16 @@ export default function Header() {
           </button>
 
           {/* Cart Dropdown */}
-          <div className="relative">
-            <button
-              onClick={() => handleToggle("cart")}
+          <div className="relative !h-[32.6px]">
+            <Link
+              to={"/cart"}
+              // onClick={() => handleToggle("cart")}
               data-stats={cart_count}
-              className="text-white dark:!text-primary-main text-2xl stats"
+              className="!text-white dark:!text-primary-main text-2xl stats"
             >
               <ShoppingCart />
-            </button>
-            <div
+            </Link>
+            {/* <div
               className={cn(
                 "absolute left-0 top-8 w-52 bg-white dark:bg-slate-800 text-sm rounded-lg shadow-lg dark:shadow-2xl overflow-hidden transition-all duration-200 z-50",
                 openDropdown === "cart"
@@ -79,7 +80,7 @@ export default function Header() {
               >
                 مشاهده سبد خرید
               </Link>
-            </div>
+            </div> */}
           </div>
 
           {/* Account Dropdown */}

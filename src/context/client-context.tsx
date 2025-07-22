@@ -2,7 +2,7 @@ import { createContext, useContext } from "react";
 import { useReactQuery } from "../hooks/use-query";
 import { useAuth } from "./auth-context";
 
-type ClientContextType = {
+export type ClientContextType = {
   unread_ticket: number;
   cart_count: number;
   unread_discount: number;

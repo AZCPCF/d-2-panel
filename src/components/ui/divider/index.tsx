@@ -11,15 +11,17 @@ export default function Divider({
 }) {
   return (
     <div>
-      <div className="flex justify-between items-center w-full">
-        <h1 className="text-2xl !font-aviny dark:text-white">{title}</h1>
+      <div className="flex justify-between items-center w-full flex-wrap">
+        <h1 className="text-2xl !font-aviny dark:text-white max-md:w-full">{title}</h1>
+        <div className="max-md:w-full max-md:flex justify-end max-md:mt-4">
+
         <button
           onClick={button?.onClick}
           className={cn(
             "bg-primary-400 p-2 text-white rounded-md hover:bg-primary-main duration-200 shadow-lg",
             button?.onClick || "hidden"
           )}
-        >
+          >
           <span className="text-xl !font-aviny flex items-center gap-1">
             {button?.completeTitle ? (
               button.completeTitle
@@ -30,6 +32,7 @@ export default function Divider({
             )}
           </span>
         </button>
+            </div>
       </div>
       <div className="border-b-4 pt-3 border-primary-400"></div>
     </div>

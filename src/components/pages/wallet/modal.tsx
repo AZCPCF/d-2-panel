@@ -1,10 +1,11 @@
 import { Minus, Plus } from "lucide-react";
 import { memo, useCallback, useMemo, useState } from "react";
+import { useReactMutation } from "../../../hooks/use-mutation";
 import { cn } from "../../../utils/cn";
 import { formatNumberWithCommas } from "../../../utils/formater";
 
 const min = 500000;
-const max = 10000000;
+const max = 5000000;
 
 const WalletDefaultButton = memo(function WalletDefaultButton({
   amount,
@@ -25,7 +26,7 @@ const WalletDefaultButton = memo(function WalletDefaultButton({
     <div className="flex justify-center" onClick={handleClick}>
       <button
         className={cn(
-          "border border-primary-main rounded-md w-max px-3 py-2 text-base hover:bg-primary-main duration-200",
+          "border border-primary-main rounded-md px-3 py-2 text-base hover:bg-primary-main duration-200 w-full",
           isActive && "bg-primary-main"
         )}
       >
@@ -54,7 +55,7 @@ export default function WalletModal() {
   const decrement = useCallback(() => {
     setAmount((prev) => Math.max(prev - 100000, min));
   }, []);
-
+  const { mutateAsync, isPending } = useReactMutation<{ link: string }>();
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const cleaned = e.target.value.replace(/[^0-9]/g, "");
@@ -75,7 +76,7 @@ export default function WalletModal() {
   return (
     <div>
       <p className="text-center text-3xl pb-4">افزایش موجودی کیف پول</p>
-      <div className="grid grid-cols-4 gap-3 mt-4">
+      <div className="grid grid-cols-4 max-md:grid-cols-2 gap-3 mt-4">
         {[min, 1000000, 2000000, 4000000].map((btnAmount) => (
           <WalletDefaultButton
             key={btnAmount}
@@ -90,7 +91,7 @@ export default function WalletModal() {
             disabled={amount === max}
             onClick={increment}
             className={cn(
-              "text-primary-main w-8 h-8 flex items-center rounded-md mb-4 justify-center border border-primary-main duration-100",
+              "text-primary-main w-8 h-8 flex items-center rounded-md justify-center border border-primary-main duration-100",
               amount === max
                 ? "text-gray-400 border-gray-400 !cursor-not-allowed"
                 : "hover:bg-primary-main hover:text-white"
@@ -106,14 +107,14 @@ export default function WalletModal() {
             placeholder={`از ${formatNumberWithCommas(
               min
             )} تومان تا ${formatNumberWithCommas(max)}`}
-            className="input max-w-6/12"
+            className="max-w-6/12 text-center outline-none"
           />
 
           <button
             disabled={amount === min}
             onClick={decrement}
             className={cn(
-              "text-primary-main w-8 h-8 flex items-center mb-4 rounded-md justify-center border border-primary-main duration-100",
+              "text-primary-main w-8 h-8 flex items-center rounded-md justify-center border border-primary-main duration-100",
               amount === min
                 ? "text-gray-400 border-gray-400 !cursor-not-allowed"
                 : "hover:bg-primary-main hover:text-white"
@@ -124,8 +125,33 @@ export default function WalletModal() {
         </div>
 
         <div className="w-full flex col-span-full justify-center">
-          <button className="w-6/12 bg-primary-main p-2 border border-primary-main rounded-md hover:bg-primary-600 duration-100 mb-4">
-            پرداخت {formattedAmount} تومان
+          <button
+            onClick={async () => {
+              await mutateAsync(
+                {
+                  endpoint: "payment",
+                  body: {
+                    amount,
+                  },
+                },
+                {
+                  onSuccess: ({ link }) => {
+                    window.open(link);
+                  },
+                }
+              );
+            }}
+            disabled={isPending}
+            className={cn(
+              "w-6/12 bg-primary-main p-2 border border-primary-main rounded-md hover:bg-primary-600 duration-100 mb-4",
+              isPending && "bg-primary-600"
+            )}
+          >
+            {isPending ? (
+              "درحال بارگذاری..."
+            ) : (
+              <>پرداخت {formattedAmount} تومان</>
+            )}
           </button>
         </div>
       </div>
